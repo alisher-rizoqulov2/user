@@ -1,17 +1,22 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { CreateDoctorDto } from './dto/create-doctor.dto';
-import { UpdateDoctorDto } from './dto/update-doctor.dto';
-import { InjectModel } from '@nestjs/sequelize';
-import { Doctor } from './model/doctor.model';
-import { PatientsService } from '../patients/patients.service';
-import { MedicalRecordsService } from '../medical-records/medical-records.service';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
+import { CreateDoctorDto } from "./dto/create-doctor.dto";
+import { UpdateDoctorDto } from "./dto/update-doctor.dto";
+import { InjectModel } from "@nestjs/sequelize";
+import { Doctor } from "./model/doctor.model";
+import { PatientsService } from "../patients/patients.service";
+import { MedicalRecordsService } from "../medical-records/medical-records.service";
+import * as bcrypt from "bcrypt";
 
 @Injectable()
 export class DoctorService {
   constructor(
     @InjectModel(Doctor)
     private readonly doctormodel: typeof Doctor,
-    private readonly patientsService: PatientsService,
+    private readonly patientsService: PatientsService
     // private readonly medicalrecordService: MedicalRecordsService,
   ) {}
   create(createDoctorDto: CreateDoctorDto) {
@@ -72,9 +77,17 @@ export class DoctorService {
     await admin?.save();
     return admin;
   }
+  async newparol(id: number, password: string) {
+    const doctor = await this.doctormodel.findByPk(id);
+    if (!doctor) {
+      throw new NotFoundException("Doctor topilmadi");
+    }
+    console.log(password);
+    const hashPassword = await bcrypt.hash(password, 7);
+    doctor.hashed_password = hashPassword;
+    console.log(doctor.hashed_password);
 
-  async aqlli1(){
-    
-    
+    doctor.save();
+    return doctor;
   }
 }

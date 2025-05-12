@@ -21,6 +21,7 @@ import {
 import { activeGuard } from "../common/guards/user.active.guard";
 import { adminguard } from "../common/guards/user.selfadmin.guard";
 import { authGuard } from "../common/guards/admin.guard";
+import { roleguard } from "../common/guards/user.role.guard";
 
 @ApiTags("Appointments")
 @Controller("appointments")
@@ -58,6 +59,28 @@ export class AppointmentsController {
   @ApiResponse({ status: 404, description: "Appointment not found." })
   findOne(@Param("id") id: string) {
     return this.appointmentsService.findOne(+id);
+  }
+  @UseGuards(activeGuard)
+  @UseGuards(roleguard)
+  @UseGuards(authGuard)
+  @Get("/uchrashuvlar/:id")
+  @ApiOperation({ summary: "uchrashuvlar" })
+  @ApiParam({ name: "id", type: Number, description: "Appointment ID" })
+  @ApiResponse({ status: 200, description: "Appointment found." })
+  @ApiResponse({ status: 404, description: "Appointment not found." })
+  uchrashuvlar(@Param("id") id: string) {
+    return this.appointmentsService.uchrashuvlar(+id);
+  }
+  @UseGuards(activeGuard)
+  @UseGuards(roleguard)
+  @UseGuards(authGuard)
+  @Get("/bekorqilinganuchrashuvlar/:id")
+  @ApiOperation({ summary: "uchrashuvlar" })
+  @ApiParam({ name: "id", type: Number, description: "Appointment ID" })
+  @ApiResponse({ status: 200, description: "Appointment found." })
+  @ApiResponse({ status: 404, description: "Appointment not found." })
+  bekoruchrashuvlar(@Param("id") id: string) {
+    return this.appointmentsService.bekorqilinganuchrashuvlar(+id);
   }
   @UseGuards(activeGuard)
   @UseGuards(adminguard)

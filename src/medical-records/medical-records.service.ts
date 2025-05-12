@@ -1,11 +1,15 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { CreateMedicalRecordDto } from './dto/create-medical-record.dto';
-import { UpdateMedicalRecordDto } from './dto/update-medical-record.dto';
-import { InjectModel } from '@nestjs/sequelize';
-import { MedicalRecord } from './models/medical-record.model';
-import { DoctorService } from '../doctor/doctor.service';
-import { PatientsService } from '../patients/patients.service';
-import { Patient } from '../patients/models/patient.model';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
+import { CreateMedicalRecordDto } from "./dto/create-medical-record.dto";
+import { UpdateMedicalRecordDto } from "./dto/update-medical-record.dto";
+import { InjectModel } from "@nestjs/sequelize";
+import { MedicalRecord } from "./models/medical-record.model";
+import { DoctorService } from "../doctor/doctor.service";
+import { PatientsService } from "../patients/patients.service";
+import { Patient } from "../patients/models/patient.model";
 
 @Injectable()
 export class MedicalRecordsService {
@@ -106,7 +110,7 @@ export class MedicalRecordsService {
 
     for (const patientRecord of patients) {
       const patient = patientRecord.dataValues.patient;
-        activePatients.push(patient);
+      activePatients.push(patient);
     }
 
     return activePatients;

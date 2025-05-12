@@ -68,6 +68,7 @@ export class DoctorController {
   update(@Param("id") id: string, @Body() updateDoctorDto: UpdateDoctorDto) {
     return this.doctorService.update(+id, updateDoctorDto);
   }
+  
   @UseGuards(activeGuard)
   @UseGuards(roleguard)
   @UseGuards(authGuard)
@@ -83,7 +84,7 @@ export class DoctorController {
     return this.doctorService.remove(+id);
   }
   @UseGuards(activeGuard)
-  @UseGuards(roleguard)
+  @UseGuards(adminguard)
   @UseGuards(authGuard)
   @Get("active/:id")
   is_active_True(@Param("id") id: number) {

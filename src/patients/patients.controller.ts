@@ -16,6 +16,7 @@ import { activeGuard } from "../common/guards/user.active.guard";
 import { adminguard } from "../common/guards/user.selfadmin.guard";
 import { authGuard } from "../common/guards/admin.guard";
 import { roleguard } from "../common/guards/user.role.guard";
+import { patientselfguard } from "../common/guards/user.patientuchun.guard";
 
 @ApiTags("Patients")
 @Controller("patients")
@@ -38,7 +39,7 @@ export class PatientsController {
     return this.patientsService.findAll();
   }
   @UseGuards(activeGuard)
-  @UseGuards(roleguard)
+  @UseGuards(patientselfguard)
   @UseGuards(authGuard)
   @Get(":id")
   @ApiOperation({ summary: "ID bo‘yicha bemorni olish" })
@@ -49,7 +50,7 @@ export class PatientsController {
     return this.patientsService.findOne(+id);
   }
   @UseGuards(activeGuard)
-  @UseGuards(roleguard)
+  @UseGuards(patientselfguard)
   @UseGuards(authGuard)
   @Patch(":id")
   @ApiOperation({ summary: "Bemor ma’lumotlarini yangilash" })
@@ -71,7 +72,7 @@ export class PatientsController {
     return this.patientsService.remove(+id);
   }
   @UseGuards(activeGuard)
-  @UseGuards(roleguard)
+  @UseGuards(adminguard)
   @UseGuards(authGuard)
   @Get("active/:id")
   is_active_True(@Param("id") id: number) {

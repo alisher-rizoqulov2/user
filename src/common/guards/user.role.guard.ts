@@ -24,10 +24,6 @@ export class roleguard implements CanActivate {
       console.log("doctor");
 
       return true;
-    } else if (req.user.role == "patient" && req.user.id == req.params.id) {
-      console.log("patient");
-
-      return true;
     }
     throw new ForbiddenException({
       message: "Sizni malumotlaringgiz to'gri kelmadi",
