@@ -1,5 +1,5 @@
 import {
-    BadRequestException,
+  BadRequestException,
   CanActivate,
   ExecutionContext,
   Injectable,
@@ -17,16 +17,20 @@ export class authGuard implements CanActivate {
   ): boolean | Promise<boolean> | Observable<boolean> {
     const req = context.switchToHttp().getRequest();
     const authHeader = req.headers.authorization;
-
+    console.log(authHeader);
     if (!authHeader) {
-      throw new UnauthorizedException("Unauthorized user");
+      console.log("1");
+
+      throw new UnauthorizedException("Unauthorized person");
     }
 
     const bearer = authHeader.split(" ")[0];
     const token = authHeader.split(" ")[1];
 
     if (bearer !== "Bearer" || !token) {
-      throw new UnauthorizedException("Unauthorized user");
+      console.log("2");
+
+      throw new UnauthorizedException("Unauthorized person");
     }
 
     async function verify(token: string, jwtService: JwtService) {
@@ -37,17 +41,19 @@ export class authGuard implements CanActivate {
         });
       } catch (error) {
         console.log(error);
-        throw new BadRequestException(error)
+        throw new BadRequestException(error);
       }
-      if(!payload){
-      throw new UnauthorizedException("Unauthorized user");
+      if (!payload) {
+        console.log("3");
+
+        throw new UnauthorizedException("Unauthorized person");
       }
-      if(!payload.is_active){
-        throw new UnauthorizedException("Ruxsat etilmagan `active` holat")
+      if (!payload.is_active) {
+        throw new UnauthorizedException("Ruxsat etilmagan `active` holat");
       }
-      req.user=payload
-      return true
+      req.user = payload;
+      return true;
     }
-    return verify(token,this.jwtService)
+    return verify(token, this.jwtService);
   }
 }
