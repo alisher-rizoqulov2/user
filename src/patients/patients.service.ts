@@ -29,7 +29,7 @@ export class PatientsService {
   }
 
   findAll() {
-    return this.Patientmodel.findAll();
+    return this.Patientmodel.findAll({ include: { all: true } });
   }
 
   async findOne(id: number) {

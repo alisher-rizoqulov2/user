@@ -15,6 +15,7 @@ import { ApiTags, ApiOperation, ApiResponse, ApiParam } from "@nestjs/swagger";
 import { activeGuard } from "../common/guards/user.active.guard";
 import { adminguard } from "../common/guards/user.selfadmin.guard";
 import { authGuard } from "../common/guards/admin.guard";
+import { doctorguard } from "../common/guards/user.doctor.guard";
 
 @ApiTags("Medications")
 @Controller("medications")

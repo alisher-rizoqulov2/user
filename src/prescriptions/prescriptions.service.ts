@@ -32,7 +32,7 @@ export class PrescriptionsService {
   }
 
   findAll() {
-    return this.Prescriptionmodel.findAll();
+    return this.Prescriptionmodel.findAll({ include: { all: true } });
   }
 
   findOne(id: number) {
@@ -63,4 +63,25 @@ export class PrescriptionsService {
     this.Prescriptionmodel.destroy({ where: { id } });
     return { message: `prescription muvaffaqiyatli o'chirildi: ID ${id}` };
   }
+    async doctormuolaja(id: number) {
+      const doctor = await this.Prescriptionmodel.findOne({
+        where: { doctor_id: id },
+      });
+  
+      if (!doctor) {
+        throw new BadRequestException("Shifokor topilmadi");
+      }
+  
+      const patients = await this.Prescriptionmodel.findAll({
+        where: { doctor_id: id },
+        include: { all: true },
+      });
+      const activePatients: Prescription[] = [];
+  
+      for (const patientRecord of patients) {
+          activePatients.push(patientRecord);
+      }
+  
+      return activePatients;
+    }
 }

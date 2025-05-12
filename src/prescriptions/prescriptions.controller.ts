@@ -21,6 +21,9 @@ import { UpdatePrescriptionDto } from "./dto/update-prescription.dto";
 import { activeGuard } from "../common/guards/user.active.guard";
 import { adminguard } from "../common/guards/user.selfadmin.guard";
 import { authGuard } from "../common/guards/admin.guard";
+import { doctorguard } from "../common/guards/user.doctor.guard";
+import { doctorselfguard } from "../common/guards/user.doctoruchun.guard";
+import { roleguard } from "../common/guards/user.role.guard";
 
 @ApiTags("Prescriptions") // Swagger bo‘lim nomi
 @Controller("prescriptions")
@@ -28,7 +31,7 @@ export class PrescriptionsController {
   constructor(private readonly prescriptionsService: PrescriptionsService) {}
 
   @UseGuards(activeGuard)
-  @UseGuards(adminguard)
+  @UseGuards(doctorselfguard)
   @UseGuards(authGuard)
   @Post()
   @ApiOperation({ summary: "Yangi retsept qo‘shish" })
@@ -56,7 +59,7 @@ export class PrescriptionsController {
   }
 
   @UseGuards(activeGuard)
-  @UseGuards(adminguard)
+  @UseGuards(roleguard)
   @UseGuards(authGuard)
   @Get(":id")
   @ApiOperation({ summary: "ID bo‘yicha retseptni olish" })
@@ -66,9 +69,20 @@ export class PrescriptionsController {
   findOne(@Param("id") id: string) {
     return this.prescriptionsService.findOne(+id);
   }
+  @UseGuards(activeGuard)
+  @UseGuards(roleguard)
+  @UseGuards(authGuard)
+  @Get("/doctormuolajalari/:id")
+  @ApiOperation({ summary: "ID bo‘yicha berilgan retseptlarni olish" })
+  @ApiParam({ name: "id", type: Number, description: "Retsept ID raqami" })
+  @ApiResponse({ status: 200, description: "Topilgan retsept qaytarildi" })
+  @ApiResponse({ status: 404, description: "Retsept topilmadi" })
+  doctormuolaja(@Param("id") id: string) {
+    return this.prescriptionsService.doctormuolaja(+id);
+  }
 
   @UseGuards(activeGuard)
-  @UseGuards(adminguard)
+  @UseGuards(roleguard)
   @UseGuards(authGuard)
   @Patch(":id")
   @ApiOperation({ summary: "Retsept ma’lumotlarini yangilash" })

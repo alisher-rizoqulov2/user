@@ -29,7 +29,7 @@ export class DepartmentsService {
   }
 
   findAll() {
-    return this.departmentmodel.findAll();
+    return this.departmentmodel.findAll({ include: { all: true } });
   }
 
   async findOne(id: number) {

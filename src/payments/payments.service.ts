@@ -28,7 +28,7 @@ export class PaymentsService {
   }
 
   findAll() {
-    return this.paymentmodel.findAll();
+    return this.paymentmodel.findAll({ include: { all: true } });
   }
 
   async findOne(id: number) {

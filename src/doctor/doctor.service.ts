@@ -3,12 +3,16 @@ import { CreateDoctorDto } from './dto/create-doctor.dto';
 import { UpdateDoctorDto } from './dto/update-doctor.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { Doctor } from './model/doctor.model';
+import { PatientsService } from '../patients/patients.service';
+import { MedicalRecordsService } from '../medical-records/medical-records.service';
 
 @Injectable()
 export class DoctorService {
   constructor(
     @InjectModel(Doctor)
-    private readonly doctormodel: typeof Doctor
+    private readonly doctormodel: typeof Doctor,
+    private readonly patientsService: PatientsService,
+    // private readonly medicalrecordService: MedicalRecordsService,
   ) {}
   create(createDoctorDto: CreateDoctorDto) {
     return this.doctormodel.create(createDoctorDto);
@@ -67,5 +71,10 @@ export class DoctorService {
     admin.is_active = false;
     await admin?.save();
     return admin;
+  }
+
+  async aqlli1(){
+    
+    
   }
 }

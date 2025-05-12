@@ -16,7 +16,7 @@ export class MedicationsService {
   }
 
   async findAll() {
-    return  this.medicationRepo.findAll();
+    return this.medicationRepo.findAll({ include: { all: true } });
   }
 
   async findOne(id: number) {

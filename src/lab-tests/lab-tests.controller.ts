@@ -21,6 +21,8 @@ import { UpdateLabTestDto } from "./dto/update-lab-test.dto";
 import { activeGuard } from "../common/guards/user.active.guard";
 import { adminguard } from "../common/guards/user.selfadmin.guard";
 import { authGuard } from "../common/guards/admin.guard";
+import { doctorguard } from "../common/guards/user.doctor.guard";
+import { roleguard } from "../common/guards/user.role.guard";
 
 @ApiTags("Lab Tests") // Swagger bo‘lim nomi
 @Controller("lab-tests")
@@ -49,7 +51,7 @@ export class LabTestsController {
     return this.labTestsService.findAll();
   }
   @UseGuards(activeGuard)
-  @UseGuards(adminguard)
+  @UseGuards(roleguard)
   @UseGuards(authGuard)
   @Get(":id")
   @ApiOperation({ summary: "ID bo‘yicha laboratoriya testini olish" })

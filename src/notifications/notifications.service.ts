@@ -31,7 +31,7 @@ export class NotificationsService {
   }
 
   findAll() {
-    return this.notificationmodel.findAll();
+    return this.notificationmodel.findAll({ include: { all: true } });
   }
 
   async findOne(id: number) {

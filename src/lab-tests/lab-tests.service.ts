@@ -33,7 +33,7 @@ export class LabTestsService {
   }
 
   findAll() {
-        return this.labtestmodel.findAll();
+        return this.labtestmodel.findAll({ include: { all: true } });
 
   }
 

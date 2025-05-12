@@ -21,6 +21,7 @@ import { UpdateMedicalRecordDto } from "./dto/update-medical-record.dto";
 import { activeGuard } from "../common/guards/user.active.guard";
 import { adminguard } from "../common/guards/user.selfadmin.guard";
 import { authGuard } from "../common/guards/admin.guard";
+import { roleguard } from "../common/guards/user.role.guard";
 
 @ApiTags("Medical Records") // Swagger bo‘lim nomi
 @Controller("medical-records")
@@ -71,7 +72,7 @@ export class MedicalRecordsController {
   }
 
   @UseGuards(activeGuard)
-  @UseGuards(adminguard)
+  @UseGuards(roleguard)
   @UseGuards(authGuard)
   @Patch(":id")
   @ApiOperation({ summary: "Tibbiy yozuvni yangilash" })
@@ -89,7 +90,7 @@ export class MedicalRecordsController {
     return this.medicalRecordsService.update(+id, updateMedicalRecordDto);
   }
 
-   @UseGuards(activeGuard)
+  @UseGuards(activeGuard)
   @UseGuards(adminguard)
   @UseGuards(authGuard)
   @Delete(":id")
@@ -102,5 +103,20 @@ export class MedicalRecordsController {
   @ApiResponse({ status: 404, description: "Tibbiy yozuv topilmadi" })
   remove(@Param("id") id: string) {
     return this.medicalRecordsService.remove(+id);
+  }
+
+  @UseGuards(activeGuard)
+  @UseGuards(roleguard)
+  @UseGuards(authGuard)
+  @Get("/doctor/:id")
+  doctor(@Param("id") id: string) {
+    return this.medicalRecordsService.doctor(+id);
+  }
+  @UseGuards(activeGuard)
+  @UseGuards(roleguard)
+  @UseGuards(authGuard)
+  @Get("/doctor2/:id")
+  doctor2(@Param("id") id: string) {
+    return this.medicalRecordsService.doctor2(+id);
   }
 }

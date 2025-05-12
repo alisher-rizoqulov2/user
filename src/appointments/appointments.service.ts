@@ -33,7 +33,7 @@ export class AppointmentsService {
   }
 
   findAll() {
-            return this.Appointmentmodel.findAll();
+            return this.Appointmentmodel.findAll({include:{all:true}});
 
 
   }
