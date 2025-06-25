@@ -1,9 +1,9 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { SequelizeModule } from "@nestjs/sequelize";
+import { UsersModule } from "./users/users.module";
+import { Users } from "./users/models/users.model";
 
-import { Users } from "./patients/models/users.model";
-import { UsersModule } from "./patients/users.module";
 
 @Module({
   imports: [

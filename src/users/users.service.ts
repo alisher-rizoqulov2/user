@@ -28,16 +28,16 @@ export class UsersService {
         type: QueryTypes.SELECT,
       }
     );
-    if (existingUsers){
+    if (existingUsers) {
       throw new BadRequestException(
-        "Email yoki Jshshr unikal emas"
+        "Bunaqa Email yoki Jshshr royxatdan otilgan"
       );
     }
-      if (!/^\d{16}$/.test(jshshr)) {
-        throw new BadRequestException(
-          "Jshshr aniq 16 ta raqamdan iborat bo'lishi kerak"
-        );
-      }
+    if (!/^\d{16}$/.test(jshshr)) {
+      throw new BadRequestException(
+        "Jshshr aniq 16 ta raqamdan iborat bo'lishi kerak"
+      );
+    }
     const [result] = await this.sequelize.query(
       `
       INSERT INTO users (first_name, last_name, email, jshshr, dob, address)
@@ -54,12 +54,28 @@ export class UsersService {
 
   async findAll() {
     const [results] = await this.sequelize.query(
-      `SELECT * FROM users WHERE state=true`
+      `SELECT * FROM users WHERE state = true ORDER BY dob ASC`
     );
     return results;
   }
-  async search(Search:string){
 
+  async search(search: string) {
+    const [results] = await this.sequelize.query(
+      `
+      SELECT * FROM users
+      WHERE state = true AND (
+        first_name ILIKE :search OR
+        last_name ILIKE :search OR
+        email ILIKE :search OR
+        jshshr ILIKE :search OR
+        address ILIKE :search
+      )
+      `,
+      {
+        replacements: { search: `%${search}%` },
+      }
+    );
+    return results;
   }
 
   async findOne(id: number) {
